@@ -1,8 +1,6 @@
 package com.example.tjfri.timergame2017.Models;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
@@ -15,16 +13,18 @@ import java.util.Random;
  * Created by TJ Frisch on 1/11/2017.
  */
 
-public class ButtonWrapper {
+public class ButtonWrapper  {
     private Context context;
+    private ButtonWrapperListener mListener;
     private Button button;
     private int CurrentColor;
     private int timeInMs, tickInterval;
-    private int numberOfClicks;
+    private int numberOfClicks = 1;
     private CountDownTimer timer;
 
-    public ButtonWrapper(Context context,Button button, int timeInMs, int tickInterval) {
+    public ButtonWrapper(Context context, Button button, int timeInMs, int tickInterval, final ButtonWrapperListener mListener) {
         this.context=context;
+        this.mListener = mListener;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,14 +38,24 @@ public class ButtonWrapper {
         this.timer = new CountDownTimer(timeInMs,tickInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                setText(String.valueOf(millisUntilFinished/1000));
+                setText(String.valueOf(millisUntilFinished*numberOfClicks/1000));
             }
 
             @Override
             public void onFinish() {
-
+                setText(String.valueOf(0));
+                mListener.gameLost(getThis());
             }
         }.start();
+
+    }
+
+    public int getNumberOfClicks() {
+        return (numberOfClicks-1);
+    }
+
+    public void setNumberOfClicks(int numberOfClicks) {
+        this.numberOfClicks = numberOfClicks;
     }
 
     public int getTimeInMs() {
@@ -68,6 +78,9 @@ public class ButtonWrapper {
         return button;
     }
 
+    public ButtonWrapper getThis(){
+        return this;
+    }
     public void setButton(Button button) {
         this.button = button;
     }
@@ -92,6 +105,30 @@ public class ButtonWrapper {
     }
 
     public void buttonPressed(){
+        mListener.buttonPressed(this);
+    }
+
+    public void resetTimer(){
+        this.timer.cancel();
+        this.timer = new CountDownTimer(timeInMs/numberOfClicks,tickInterval/numberOfClicks) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                setText(String.valueOf(millisUntilFinished*numberOfClicks/1000));
+            }
+
+            @Override
+            public void onFinish() {
+                setText(String.valueOf(0));
+                mListener.gameLost(getThis());
+            }
+        }.start();
+    }
+
+    public void stopTimer(){
+        this.timer.cancel();
+    }
+
+    public void speedUpTimer(){
         numberOfClicks++;
         this.timer.cancel();
         this.timer = new CountDownTimer(timeInMs/numberOfClicks,tickInterval/numberOfClicks) {
@@ -102,10 +139,10 @@ public class ButtonWrapper {
 
             @Override
             public void onFinish() {
-
+                setText(String.valueOf(0));
+                mListener.gameLost(getThis());
             }
         }.start();
-        randomizeBtnColor();
     }
 
     public void randomizeBtnColor() {
@@ -133,5 +170,10 @@ public class ButtonWrapper {
                 getButton().setBackgroundResource(R.drawable.purple);
                 break;
         }
+    }
+
+    public interface ButtonWrapperListener{
+        public void buttonPressed(ButtonWrapper buttonWrapper);
+        public void gameLost(ButtonWrapper lostButton);
     }
 }

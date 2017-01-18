@@ -15,7 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Gameplay"></activity>
+        <activity android:name=".Gameplay" />
+        <activity android:name=".LossScreen"></activity>
     </application>
 
 </manifest>
