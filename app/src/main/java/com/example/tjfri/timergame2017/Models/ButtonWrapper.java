@@ -15,15 +15,18 @@ import java.util.Random;
 
 public class ButtonWrapper  {
     private Context context;
+    private boolean timerAlmostUp = false;
     private ButtonWrapperListener mListener;
+    private Indicator indicator;
     private Button button;
     private int CurrentColor;
-    private int timeInMs, tickInterval;
+    private int timeInMs = 60000, tickInterval = 1000;
     private int numberOfClicks = 1;
     private CountDownTimer timer;
 
-    public ButtonWrapper(Context context, Button button, int timeInMs, int tickInterval, final ButtonWrapperListener mListener) {
+    public ButtonWrapper(Context context, final Indicator indicator, Button button, final ButtonWrapperListener mListener) {
         this.context=context;
+        this.indicator = indicator;
         this.mListener = mListener;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +42,11 @@ public class ButtonWrapper  {
             @Override
             public void onTick(long millisUntilFinished) {
                 setText(String.valueOf(millisUntilFinished*numberOfClicks/1000));
+                if((millisUntilFinished*numberOfClicks/1000)<=10){
+                    //Do some magic
+                    timerAlmostUp = true;
+                    indicator.incrementColor(getCurrentColor());
+                }
             }
 
             @Override
@@ -91,6 +99,28 @@ public class ButtonWrapper  {
 
     public void setCurrentColor(int currentColor) {
         CurrentColor = currentColor;
+        switch (getCurrentColor()) {
+            //Red
+            case 0:
+                getButton().setBackgroundResource(R.drawable.red);
+                break;
+            //Orange
+            case 1:
+                getButton().setBackgroundResource(R.drawable.orange);
+                break;
+            //Blue
+            case 2:
+                getButton().setBackgroundResource(R.drawable.blue);
+                break;
+            //Green
+            case 3:
+                getButton().setBackgroundResource(R.drawable.green);
+                break;
+            //Purple
+            case 4:
+                getButton().setBackgroundResource(R.drawable.purple);
+                break;
+        }
     }
 
     public CountDownTimer getTimer() {
@@ -105,6 +135,10 @@ public class ButtonWrapper  {
     }
 
     public void buttonPressed(){
+        if(timerAlmostUp){
+            indicator.decrementColor(getCurrentColor());
+            timerAlmostUp = false;
+        }
         mListener.buttonPressed(this);
     }
 
@@ -148,28 +182,6 @@ public class ButtonWrapper  {
     public void randomizeBtnColor() {
         Random rColor = new Random();
         setCurrentColor(rColor.nextInt(5));
-        switch (getCurrentColor()) {
-            //Red
-            case 0:
-                getButton().setBackgroundResource(R.drawable.red);
-                break;
-            //Orange
-            case 1:
-                getButton().setBackgroundResource(R.drawable.orange);
-                break;
-            //Blue
-            case 2:
-                getButton().setBackgroundResource(R.drawable.blue);
-                break;
-            //Green
-            case 3:
-                getButton().setBackgroundResource(R.drawable.green);
-                break;
-            //Purple
-            case 4:
-                getButton().setBackgroundResource(R.drawable.purple);
-                break;
-        }
     }
 
     public interface ButtonWrapperListener{
