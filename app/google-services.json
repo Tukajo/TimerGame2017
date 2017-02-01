@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "21612006481",
+    "firebase_url": "https://timergame2017.firebaseio.com",
+    "project_id": "timergame2017",
+    "storage_bucket": "timergame2017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21612006481:android:1fd6ce82748bd360",
+        "android_client_info": {
+          "package_name": "com.example.tjfri.timergame2017"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21612006481-p7d6gdlo8v0pm1k047jn24f6v9gl1j9f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tjfri.timergame2017",
+            "certificate_hash": "33CC9641AC4C9736543215D5B37ACF3F40293A82"
+          }
+        },
+        {
+          "client_id": "21612006481-ki0hdp5a2kc5d6q812ga0ghkei90dv2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-Jfc8MBnC0o-O8SxK6TsZWPcXoMPs5f0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21612006481-ki0hdp5a2kc5d6q812ga0ghkei90dv2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

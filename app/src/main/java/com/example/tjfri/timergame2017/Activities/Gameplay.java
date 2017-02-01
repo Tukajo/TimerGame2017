@@ -1,16 +1,14 @@
-package com.example.tjfri.timergame2017;
+package com.example.tjfri.timergame2017.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tjfri.timergame2017.Models.ButtonWrapper;
 import com.example.tjfri.timergame2017.Models.Indicator;
+import com.example.tjfri.timergame2017.R;
 
 import java.util.ArrayList;
 import java.util.Random;
